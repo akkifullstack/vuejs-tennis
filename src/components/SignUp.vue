@@ -15,31 +15,52 @@
           <div align="center">
             <v-text-field
               class="input"
+              name="email"
+              v-model="email"
               placeholder="E-mail Adresse"
+              @change="onChange"
             ></v-text-field>
-            <v-text-field class="input" placeholder="Name"></v-text-field>
-            <v-text-field class="input" placeholder="Nachname"></v-text-field>
+            <v-text-field
+              class="input"
+              name="firstname"
+              v-model="firstname"
+              placeholder="Name"
+              @change="onChange"
+            ></v-text-field>
+            <v-text-field
+              class="input"
+              name="lastname"
+              v-model="lastname"
+              placeholder="Nachname"
+              @change="onChange"
+            ></v-text-field>
             <v-text-field
               class="input"
               placeholder="Passwort"
+              v-model="password"
               :type="'password'"
+              name="password"
+              @change="onChange"
             ></v-text-field>
           </div>
           <div>
             <v-col cols="12" sm="12" md="12">
-              <v-radio class="term-radio"></v-radio>
-              <span class="radio-text">
-                Indem du auf,Registrieren“ klickst, stimmst du unseren
-                Nutzungsbedingungen zu. In unserer Datenrichtlinie erfährst du,
-                wie wir deine Daten erfassen, verwenden und teilen. Unsere
-                Cookie-Richtlinie erklärt, wie wir Cookies und ähnliche
-                Technologien verwenden. Facebook schickt dir eventuell
-                Benachrichtigungen per SMS, die du jederzeit abbestellen kannst.
-              </span>
+              <v-radio-group v-model="terms" :mandatory="false">
+                <v-radio value="radio-2"></v-radio>
+                <span class="radio-text">
+                  Indem du auf,Registrieren“ klickst, stimmst du unseren
+                  Nutzungsbedingungen zu. In unserer Datenrichtlinie erfährst
+                  du, wie wir deine Daten erfassen, verwenden und teilen. Unsere
+                  Cookie-Richtlinie erklärt, wie wir Cookies und ähnliche
+                  Technologien verwenden. Facebook schickt dir eventuell
+                  Benachrichtigungen per SMS, die du jederzeit abbestellen
+                  kannst.
+                </span>
+              </v-radio-group>
             </v-col>
           </div>
           <div align="center" class="registration-button">
-            <button v-on:click="openModal('registration')">
+            <button v-on:click="onSubmit">
               Jetzt registrieren
             </button>
           </div>
@@ -82,7 +103,30 @@
 
 <script>
 export default {
-  name: "Registration"
+  name: "Registration",
+  data() {
+    return {
+      email: "",
+      firstname: "",
+      lastname: "",
+      password: "",
+      terms: ""
+    };
+  },
+  methods: {
+    onChange() {},
+    onSubmit() {
+      let params = {
+        email: this.email,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        password: this.password,
+        country: "DE",
+        agb: true
+      };
+      this.$store.dispatch("SignUpAction", params);
+    }
+  }
 };
 </script>
 <style scoped>
